@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-void: #0A0C0F;
+  --color-slate-deep: #111418;
+  --color-slate-mid: #1C2028;
+  --color-slate-light: #272D38;
+  --color-wire: #3A424F;
+  --color-signal: #FF6B2B;
+  --color-signal-dim: #7A3010;
+  --color-data: #E2E8F0;
+  --color-ghost: #64748B;
+  --color-success: #22C55E;
+  --color-caution: #EAB308;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-data);
+  font-family: 'Inter', 'DM Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-slate-mid);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-wire);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ghost);
+}
+
+/* React Flow overrides */
+.react-flow__node {
+  cursor: default;
+}
+.react-flow__edge-path {
+  stroke-width: 2;
+}
+.react-flow__controls {
+  top: 10px !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: 10px !important;
+  display: flex !important;
+  flex-direction: row !important;
+}
+.react-flow__minimap {
+  bottom: 60px !important;
+  right: 10px !important;
+}
+
+/* Pulse signal animation */
+@keyframes pulse-signal {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 107, 43, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(255, 107, 43, 0);
+  }
+}
+
+.animate-pulse-signal {
+  animation: pulse-signal 2s ease-in-out infinite;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .right-panel-mobile {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40vh;
+    z-index: 20;
+    border-top: 1px solid var(--color-wire);
+    border-left: none;
+  }
+}
