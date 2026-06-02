@@ -35,6 +35,17 @@ export function CustomCohortModal() {
 
       if (result.usingMock) setUsingMock(true)
 
+      if (typeof pendo !== 'undefined') {
+        pendo.track('cohort_behavior_synthesized', {
+          used_mock_ai: result.usingMock,
+          cohort_name: name,
+          patience_index: patience,
+          tech_literacy: techLiteracy,
+          decision_confidence: confidence,
+          has_behavioral_quirks: quirks.trim().length > 0,
+        })
+      }
+
       addCustomCohort({
         name,
         patienceIndex: patience,
@@ -45,6 +56,15 @@ export function CustomCohortModal() {
       })
 
       telemetry.cohortCreatedCustom(patience, techLiteracy, confidence)
+      if (typeof pendo !== 'undefined') {
+        pendo.track('cohort_created_custom', {
+          patience_index: patience,
+          tech_literacy: techLiteracy,
+          decision_confidence: confidence,
+          has_behavioral_quirks: quirks.trim().length > 0,
+          used_mock_ai: result.usingMock,
+        })
+      }
       setShowCustomCohortModal(false)
       setName('')
       setPatience(50)

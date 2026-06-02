@@ -45,6 +45,12 @@ export function FlowToolbar({ onAutoLayout }: FlowToolbarProps) {
     }
     addNode(newNode)
     telemetry.flowNodeAdded(type, nodes.length + 1)
+    if (typeof pendo !== 'undefined') {
+      pendo.track('flow_node_added', {
+        node_type: type,
+        total_nodes_in_flow: nodes.length + 1,
+      })
+    }
     setActiveTool('select')
   }
 
@@ -126,6 +132,12 @@ export function FlowToolbar({ onAutoLayout }: FlowToolbarProps) {
             const e = edges.length
             clearCanvas()
             telemetry.canvasCleared(n, e)
+            if (typeof pendo !== 'undefined') {
+              pendo.track('canvas_cleared', {
+                nodes_lost: n,
+                edges_lost: e,
+              })
+            }
           }}
           disabled={isReadOnly}
           className="w-9 h-9 flex items-center justify-center rounded-[2px] transition-colors border-l-2 border-l-transparent text-ghost hover:text-signal hover:bg-signal/10 disabled:opacity-30 disabled:cursor-not-allowed"

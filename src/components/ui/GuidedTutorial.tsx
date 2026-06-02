@@ -554,6 +554,15 @@ export function GuidedTutorial() {
         driverRef.current?.movePrevious()
       },
       onDestroyStarted: () => {
+        const completedSteps = stepIndexRef.current + 1
+        const totalSteps = STEPS.length
+        if (typeof pendo !== 'undefined') {
+          pendo.track('tutorial_completed', {
+            steps_completed: completedSteps,
+            total_steps: totalSteps,
+            tutorial_abandoned: completedSteps < totalSteps,
+          })
+        }
         stop()
       },
     })
@@ -641,6 +650,14 @@ export function GuidedTutorial() {
     const endCount = n.filter((x) => x.type === 'end').length
     const edgeCount = e.filter((x) => !x.id.startsWith('friction-')).length
     start(screenCount, decisionCount, endCount, edgeCount)
+    if (typeof pendo !== 'undefined') {
+      pendo.track('tutorial_started', {
+        baseline_screen_count: screenCount,
+        baseline_decision_count: decisionCount,
+        baseline_end_count: endCount,
+        baseline_edge_count: edgeCount,
+      })
+    }
   }
 
   return (

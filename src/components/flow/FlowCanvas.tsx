@@ -125,6 +125,13 @@ export function FlowCanvas() {
       const targetNode = nodes.find((n) => n.id === connection.target)
       if (sourceNode && targetNode) {
         telemetry.flowNodeConnected(sourceNode.type, targetNode.type, edges.length + 1)
+        if (typeof pendo !== 'undefined') {
+          pendo.track('flow_node_connected', {
+            source_node_type: sourceNode.type,
+            target_node_type: targetNode.type,
+            total_edges_in_flow: edges.length + 1,
+          })
+        }
       }
     },
     [edges, setEdges, nodes, isReadOnly],
