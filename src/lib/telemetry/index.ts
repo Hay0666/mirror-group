@@ -23,9 +23,9 @@ const NovusSDK = {
 
   track(payload: TelemetryPayload) {
     // Replace this with: novus.track(payload.event, payload.properties)
-    console.groupCollapsed(`[Novus.ai] ${payload.event}`)
-    console.table(payload.properties)
-    console.groupEnd()
+    // console.groupCollapsed(`[Novus.ai] ${payload.event}`)
+    // console.table(payload.properties)
+    // console.groupEnd()
   },
 }
 

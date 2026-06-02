@@ -106,7 +106,6 @@ Behavioral Quirks: ${cohort.behavioralQuirks ?? 'None specified'}`
     return { data: profile, usingMock: false }
   } catch (err) {
     const reason = err instanceof Error ? err.message : 'UNKNOWN'
-    console.info(`[MirrorGroup AI] Cohort synthesis falling back to mock. Reason: ${reason}`)
 
     // --- Deterministic mock fallback ---
     const mock = selectMockBehaviorProfile({
@@ -173,7 +172,6 @@ Generate exactly 3 actionable recommendations to reduce the highest-impact frict
     return { data: recs, usingMock: false }
   } catch (err) {
     const reason = err instanceof Error ? err.message : 'UNKNOWN'
-    console.info(`[MirrorGroup AI] Recommendations falling back to mock. Reason: ${reason}`)
 
     // --- Deterministic mock fallback using real node names ---
     const names = {

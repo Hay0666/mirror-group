@@ -124,7 +124,6 @@ export function SimulationHeader() {
 
       setTimeout(() => setCompleteFlash(false), 1500)
     } catch (err) {
-      console.error('[Simulation Error]', err)
       setStatus('IDLE')
     }
   }
