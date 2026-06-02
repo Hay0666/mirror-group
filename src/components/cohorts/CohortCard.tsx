@@ -22,6 +22,12 @@ export function CohortCard({ cohort }: CohortCardProps) {
   const handleToggle = (checked: boolean) => {
     toggleCohortAssignment(cohort.id)
     telemetry.cohortAssigned(cohort.archetype, cohort.archetype === 'CUSTOM')
+    if (typeof pendo !== 'undefined') {
+      pendo.track('cohort_assigned', {
+        cohort_archetype: cohort.archetype,
+        is_custom_cohort: cohort.archetype === 'CUSTOM',
+      })
+    }
   }
 
   return (

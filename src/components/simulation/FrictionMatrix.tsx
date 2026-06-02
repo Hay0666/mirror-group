@@ -35,6 +35,15 @@ export function FrictionMatrix({ open, onClose }: FrictionMatrixProps) {
         .then((result) => {
           setRecs(result.data)
           setRecsUsingMock(result.usingMock)
+          if (typeof pendo !== 'undefined') {
+            pendo.track('ai_recommendations_generated', {
+              recommendation_count: result.data?.length ?? 0,
+              used_mock_ai: result.usingMock,
+              simulation_completion_rate: run.overallCompletionRate,
+              highest_friction_score: run.highestFrictionScore,
+              node_count: run.nodeResults.length,
+            })
+          }
         })
         .catch(() => setRecs(null))
         .finally(() => setRecsLoading(false))

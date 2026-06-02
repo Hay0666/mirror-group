@@ -114,10 +114,18 @@ export const telemetry = {
     })
   },
 
-  flowExported(format: string, nodeCount: number) {
+  flowExported(format: string, nodeCount: number, edgeCount: number = 0, hasSimulationResults: boolean = false) {
     dispatch('flow_exported', {
       format,
       node_count: nodeCount,
     })
+    if (typeof pendo !== 'undefined') {
+      pendo.track('flow_exported', {
+        format,
+        node_count: nodeCount,
+        edge_count: edgeCount,
+        has_simulation_results: hasSimulationResults,
+      })
+    }
   },
 }

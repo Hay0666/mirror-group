@@ -48,6 +48,14 @@ export function SimulationHeader() {
 
     const hasDecisions = nodes.some((n) => n.type === 'decision')
     telemetry.simulationStarted(connectedNodes.length, edgeCount, cohorts.length, hasDecisions)
+    if (typeof pendo !== 'undefined') {
+      pendo.track('simulation_started', {
+        node_count: connectedNodes.length,
+        edge_count: edgeCount,
+        cohort_count: cohorts.length,
+        has_decision_nodes: hasDecisions,
+      })
+    }
 
     setStatus('RUNNING')
     setProgress(0)
@@ -64,6 +72,14 @@ export function SimulationHeader() {
         (event) => {
           addLiveEvent(event)
           telemetry.frictionEventSurfaced(event.nodeType, event.cohortArchetype, event.frictionScore, event.severity)
+          if (typeof pendo !== 'undefined') {
+            pendo.track('friction_event_surfaced', {
+              node_type: event.nodeType,
+              cohort_archetype: event.cohortArchetype,
+              friction_score: event.frictionScore,
+              friction_severity: event.severity,
+            })
+          }
         },
         setProgress,
       )
@@ -121,10 +137,26 @@ export function SimulationHeader() {
         result.highestFrictionScore,
         result.overallCompletionRate,
       )
+      if (typeof pendo !== 'undefined') {
+        pendo.track('simulation_completed', {
+          duration_ms: result.completedAt! - result.startedAt,
+          total_friction_events: result.frictionEvents.length,
+          highest_friction_score: result.highestFrictionScore,
+          overall_completion_rate: result.overallCompletionRate,
+        })
+      }
 
       setTimeout(() => setCompleteFlash(false), 1500)
     } catch (err) {
       console.error('[Simulation Error]', err)
+      if (typeof pendo !== 'undefined') {
+        pendo.track('simulation_failed', {
+          error_message: String(err instanceof Error ? err.message : err).substring(0, 100),
+          node_count: connectedNodes.length,
+          edge_count: edgeCount,
+          cohort_count: cohorts.length,
+        })
+      }
       setStatus('IDLE')
     }
   }
